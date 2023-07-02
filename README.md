@@ -1,4 +1,4 @@
-# Drawing Assignment 2 (Creative Coding)
+# Drawing Assignment 2 - (Creative Coding)
 -------------------------------------------
 Instructions:
 
