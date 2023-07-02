@@ -1,0 +1,109 @@
+let red = 0;
+let blue = 0;
+let green = 0;
+let value;
+let size = 5;
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  background(0);
+}
+
+function draw() {
+  // change colors
+  if (keyIsDown(SHIFT)) {
+    value = (1536 / windowWidth) * mouseX;
+    if (value <= 512) {
+      change_color(value);
+    } else if (value <= 1024) {
+      change_color2(value);
+    } else {
+      change_color3(value);
+    }
+  }
+
+  // rectangle that shows what color is picked
+  fill(red, green, blue);
+  rect(0, windowHeight - windowHeight / 15, windowWidth, windowHeight / 15);
+  textSize(32);
+  fill(100);
+  text(size, windowWidth / 2, windowHeight - windowHeight / 50);
+}
+
+function keyPressed() {
+  if (keyCode == UP_ARROW) {
+    if (size <= 10) {
+      size++;
+    }
+  } else if (keyCode == DOWN_ARROW) {
+    if (size > 1) {
+      size--;
+    }
+  }
+}
+
+function change_color(value) {
+  if (value <= 256) {
+    red = value;
+    green = 0;
+    blue = 0;
+  } else {
+    red = 256;
+    green = value - 256;
+    blue = 0;
+  }
+}
+
+function change_color2(value) {
+  if (512 < value <= 768) {
+    red = 768 - value;
+    green = 256;
+    blue = 0;
+  } else {
+    red = 0;
+    green = 256;
+    blue = -512 + value;
+  }
+}
+
+function change_color3(value) {
+  if (value <= 1280) {
+    red = 0;
+    green = 1280 - value;
+    blue = 256;
+  } else {
+    red = -1280 + value;
+    green = -1280 + value;
+    blue = 256;
+  }
+}
+
+function mouseClicked() {
+  fill(red, green, blue);
+  star_cluster(mouseX, mouseY, red, green, blue);
+}
+
+function star_cluster(x, y, red, green, blue) {
+  let switch_sign = 1;
+  let switch_sign2 = -1;
+  for (let i = 0; i < 800 * random(); i++) {
+    for (let j = 0; j < 800 * random(); j++) {
+      noStroke();
+      fill(red, green, blue, 400 * random());
+      circle(
+        x + switch_sign * (i * 2) * random(),
+        y + switch_sign2 * (j * 2) * random(),
+        size * random()
+      );
+    }
+    if (switch_sign == 1 && switch_sign2 == -1) {
+      switch_sign2 = 1;
+    } else if (switch_sign == 1 && switch_sign2 == 1) {
+      switch_sign = -1;
+    } else if (switch_sign == -1 && switch_sign2 == 1) {
+      switch_sign2 = -1;
+    } else if (switch_sign == -1 && switch_sign2 == -1) {
+      switch_sign = 1;
+    }
+  }
+}
